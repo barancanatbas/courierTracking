@@ -1,31 +1,53 @@
 package handler
 
+import (
+	"github.com/barancanatbas/courierTracking/domain/dto/request"
+	"github.com/barancanatbas/courierTracking/internal/usecase"
+	"github.com/barancanatbas/courierTracking/util"
+	"github.com/labstack/echo/v4"
+	"net/http"
+)
+
 type CourierHandler interface {
-	Create()
-	Delete()
-	Update()
-	Get()
+	Create(c echo.Context) error
+	Delete(c echo.Context) error
+	Update(c echo.Context) error
+	Get(c echo.Context) error
 }
 
-type CourierHandle struct {
+type courier struct {
+	util           *util.Util
+	courierUsecase usecase.CourierUsecase
 }
 
-func NewCourierHandler() CourierHandler {
-	return &CourierHandle{}
+func NewCourierHandler(courierUsecase usecase.CourierUsecase, util *util.Util) CourierHandler {
+	return &courier{
+		util:           util,
+		courierUsecase: courierUsecase,
+	}
 }
 
-func (c *CourierHandle) Create() {
+func (ch *courier) Create(c echo.Context) error {
+	var req request.Courier
+	if err := ch.util.Validate(c, &req); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
 
+	result, err := ch.courierUsecase.Create(c.Request().Context(), req)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	return c.JSON(http.StatusOK, result)
 }
 
-func (c *CourierHandle) Delete() {
-
+func (ch *courier) Delete(c echo.Context) error {
+	return nil
 }
 
-func (c *CourierHandle) Update() {
-
+func (ch *courier) Update(c echo.Context) error {
+	return nil
 }
 
-func (c *CourierHandle) Get() {
-
+func (ch *courier) Get(c echo.Context) error {
+	return nil
 }

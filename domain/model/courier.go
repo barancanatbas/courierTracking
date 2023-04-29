@@ -1,10 +1,11 @@
 package model
 
+import "gorm.io/gorm"
+
 type Courier struct {
-	ID          int64
+	gorm.Model
 	Name        string
 	Phone       string
 	VehicleType VehicleType
-
-	Deliveries []Delivery // Kuryenin teslimatlarının listesi
+	Deliveries  []Delivery // Kuryenin teslimatlarının listesi
 }

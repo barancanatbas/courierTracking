@@ -9,5 +9,6 @@ type Delivery struct {
 	PackageWeight   float64
 	DeliveryFee     float64
 	Status          DeliveryStatus
+	CourierID       uint
 	CurrentLocation []Location // geçtiği lokasyonlar.
 }
